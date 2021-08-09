@@ -20,6 +20,6 @@ namespace Hipster.Api
         public int Year { get; init; }
 
         [Required]
-        public string CoverImageUrl => "https://images-na.ssl-images-amazon.com/images/I/81RUfP0ZOjL.jpg";
+        public string CoverImageUrl => "https://images-na.ssl-images-amazon.com/images/I/618SN1XrtFL.jpg";
     }
 }
