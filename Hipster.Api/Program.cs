@@ -19,6 +19,7 @@ namespace Hipster.Api
                         .UseHeroku()
                         .UseSentry(o =>
                         {
+                            o.Debug = true;
                             o.TracesSampleRate = 1;
                         });
                 });
