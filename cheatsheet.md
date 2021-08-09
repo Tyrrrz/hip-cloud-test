@@ -273,7 +273,7 @@ function App() {
 - Add dockerfile for API:
 
 ```dockerfile
-// api.dockerfile
+# api.dockerfile
 
 # ** Build
 
@@ -883,7 +883,7 @@ jobs:
 # ...
 
 - name: Build & test
-  run: dotnet test --configuration Release
+  run: dotnet test --configuration Release --logger GitHubActions
 ```
 
 - Build Docker container in CI:
