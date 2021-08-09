@@ -30,3 +30,37 @@ jobs:
         run: heroku container:release web -a ${{ secrets.HEROKU_APP }}
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_TOKEN }}
+
+  deploy-app:
+    needs: deploy-api
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.3
+
+      - name: Install NodeJS
+        uses: actions/setup-node@v2.1.2
+        with:
+          node-version: 12
+
+      - name: Install Netlify CLI
+        run: npm i netlify-cli -g
+
+      - name: Pull dependencies
+        run: npm ci --no-audit
+        working-directory: ./Hipster.App
+
+      - name: Build
+        run: npm run build
+        working-directory: ./Hipster.App
+        env:
+          NODE_ENV: production
+          PUBLIC_URL: https://hipster-app.netlify.app
+          REACT_APP_API_URL: https://hipster-app.herokuapp.com
+
+      - name: Deploy
+        run: netlify deploy --dir=build --prod
+        working-directory: ./Hipster.App
+        env:
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE }}
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
