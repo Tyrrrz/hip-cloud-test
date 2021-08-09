@@ -28,6 +28,9 @@ namespace Hipster.Api
         [ProducesResponseType(typeof(ProblemDetails), 404)]
         public async Task<IActionResult> GetBook(int id)
         {
+            if (id == 2)
+                throw new System.Exception("oops");
+
             var book = await _db.Books.FindAsync(id);
 
             if (book is null)
