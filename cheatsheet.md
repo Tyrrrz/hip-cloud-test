@@ -889,6 +889,10 @@ jobs:
 - Build Docker container in CI:
 
 ```yml
+# .github/workflows/CI.yml
+
+# ...
+
 build-docker:
   runs-on: ubuntu-latest
   steps:
@@ -1013,7 +1017,43 @@ app.UseCors(o =>
 ### Switch from automatic to manual deployments
 
 - Disable automatic deploy on Heroku
-- Add CD workflow for backend
+- Add CD workflow for backend:
+
+```yml
+# cd.yml
+
+name: CD
+
+# Change to only run on tags in the future
+on: [push]
+
+jobs:
+  deploy-api:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.3
+
+      - name: Build
+        run: docker build . -f api.dockerfile -t hipster.api
+
+      - name: Install Heroku CLI
+        run: curl https://cli-assets.heroku.com/install.sh | sh
+
+      - name: Log in
+        run: heroku container:login
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_TOKEN }}
+
+      - name: Deploy
+        run: |
+          docker tag hipster.api registry.heroku.com/${{ secrets.HEROKU_APP }}/web
+          docker push registry.heroku.com/${{ secrets.HEROKU_APP }}/web
+
+      - name: Release
+        run: heroku container:release web -a ${{ secrets.HEROKU_APP }}
+```
+
 - Add CD workflow for frontend
 
 ### Adding services
