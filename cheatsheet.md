@@ -997,6 +997,16 @@ public static IHostBuilder CreateHostBuilder(string[] args) =>
 - Add environment variables:
   - `REACT_APP_API_URL`: `https://hipster-app.herokuapp.com`
   - `PUBLIC_URL`: `https://hipster-app.netlify.app`
+- Deploy the site and see that it works
+- Open a non-root page, refresh, and see that it doesn't work
+- Configure rewrite rules:
+
+```sh
+# Hipster.App/public/_redirects
+
+/* /index.html 200
+```
+
 - Make CORS configurable on the backend:
 
 ```json
