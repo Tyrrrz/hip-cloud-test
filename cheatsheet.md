@@ -832,8 +832,47 @@ public async Task GET_request_to_books_endpoint_with_book_ID_returns_an_error_fo
 
 ```yml
 # .github/workflows/CI.yml
+
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build-api:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.3
+
+      - name: Install .NET
+        uses: actions/setup-dotnet@v1.7.2
+        with:
+          dotnet-version: 5.0.x
+
+      - name: Build & test
+        run: dotnet test --configuration Release --logger GitHubActions
+
+  build-app:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.3
+
+      - name: Install NodeJS
+        uses: actions/setup-node@v2.1.2
+        with:
+          node-version: 12
+
+      - name: Pull dependencies
+        run: npm ci --no-audit
+        working-directory: ./Hipster.App
+
+      - name: Build
+        run: npm run build
+        working-directory: ./Hipster.App
 ```
 
+- Add coverage reporting if there's enough time
 - Fail a test and see that it reports poorly
 - `dotnet add package GitHubActionsTestLogger`
 - Configure the test logger:
