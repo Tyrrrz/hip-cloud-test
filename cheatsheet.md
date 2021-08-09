@@ -850,7 +850,7 @@ jobs:
           dotnet-version: 5.0.x
 
       - name: Build & test
-        run: dotnet test --configuration Release --logger GitHubActions
+        run: dotnet test --configuration Release
 
   build-app:
     runs-on: ubuntu-latest
@@ -870,16 +870,9 @@ jobs:
       - name: Build
         run: npm run build
         working-directory: ./Hipster.App
-
-    build-docker:
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout
-          uses: actions/checkout@v2.3.3
-
 ```
 
-- Add coverage reporting if there's enough time
+- Add coverage reporting to CI
 - Fail a test and see that it reports poorly
 - `dotnet add package GitHubActionsTestLogger`
 - Configure the test logger:
@@ -888,6 +881,22 @@ jobs:
 # .github/workflows/CI.yml
 
 # ...
+
+- name: Build & test
+  run: dotnet test --configuration Release
+```
+
+- Build Docker container in CI:
+
+```yml
+build-docker:
+  runs-on: ubuntu-latest
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v2.3.3
+
+    - name: Build containers
+      run: docker-compose build
 ```
 
 ### Writing tests for frontend
