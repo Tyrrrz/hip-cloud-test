@@ -907,7 +907,7 @@ build-docker:
 
 - Talk about Heroku and its pricing tiers
 - Add a new app, connect it to GitHub repository, and enable automatic deploys
-- Attempt to deploy the app (it will fail)
+- Attempt to deploy the app, see that it fails because it doesn't know how to build it
 - Configure build pack `jincod/dotnetcore`
 - Deploy the app and open the swagger dashboard
 - Note that the database connection is not working
@@ -974,11 +974,47 @@ public static IHostBuilder CreateHostBuilder(string[] args) =>
         });
 ```
 
-- Make CORS configurable
-- Connect to Heroku Postgres instance
-- Use GitHub Actions (and secrets)
+- Try again, see that the app successfully connects to the database
+- Connect to Heroku Postgres instance via pgAdmin4
 
 ### Deploying frontend
+
+- Talk about Netlify and its pricing tiers
+- Add a new site and connect it to GitHub repository
+- Change the site name to `hipster-app`
+- Configure base directory (`Hipster.App`), publish directory (`Hipster.App/build`), and command (`npm run build`)
+- Attempt to deploy the site, see that it cannot connect to the backend
+- Add environment variables:
+  - `REACT_APP_API_URL`: `https://hipster-app.herokuapp.com`
+  - `PUBLIC_URL`: `https://hipster-app.netlify.app`
+- Make CORS configurable on the backend:
+
+```json
+// appsettings.Development.json
+
+{
+    "AllowedOrigins": "*",
+    // ...
+}
+```
+
+```csharp
+// Startup.cs
+
+// ...
+app.UseCors(o =>
+{
+    o.WithOrigins(Configuration.GetSection("AllowedOrigins").Get<string>()?.Split(',') ?? new[] {"*"});
+    o.AllowAnyHeader();
+    o.AllowAnyMethod();
+});
+```
+
+### Switch from automatic to manual deployments
+
+- Disable automatic deploy on Heroku
+- Add CD workflow for backend
+- Add CD workflow for frontend
 
 ### Adding services
 
