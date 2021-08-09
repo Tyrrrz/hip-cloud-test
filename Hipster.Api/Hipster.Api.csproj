@@ -7,6 +7,7 @@
   <ItemGroup>
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.7" />
     <PackageReference Include="NSwag.AspNetCore" Version="13.12.1" />
+    <PackageReference Include="Sentry.AspNetCore" Version="3.8.3" />
   </ItemGroup>
 
 </Project>

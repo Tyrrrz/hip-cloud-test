@@ -16,7 +16,11 @@ namespace Hipster.Api
                 {
                     webBuilder
                         .UseStartup<Startup>()
-                        .UseHeroku();
+                        .UseHeroku()
+                        .UseSentry(o =>
+                        {
+                            o.TracesSampleRate = 1;
+                        });
                 });
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Sentry.AspNetCore;
 
 namespace Hipster.Api
 {
@@ -42,6 +43,8 @@ namespace Hipster.Api
             }
 
             app.UseRouting();
+
+            app.UseSentryTracing();
 
             app.UseCors(o =>
             {

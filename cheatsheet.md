@@ -943,7 +943,7 @@ internal static class HerokuIntegration
         return builder.ConnectionString;
     }
 
-    public static void UseHeroku(this IWebHostBuilder webHost)
+    public static IWebHostBuilder UseHeroku(this IWebHostBuilder webHost)
     {
         // Port settings
         var port = Environment.GetEnvironmentVariable("PORT");
@@ -961,6 +961,8 @@ internal static class HerokuIntegration
                 ConnectionStringFromUrl(databaseUrl)
             );
         }
+
+        return webHost;
     }
 }
 ```
@@ -980,6 +982,10 @@ public static IHostBuilder CreateHostBuilder(string[] args) =>
 
 - Try again, see that the app successfully connects to the database
 - Connect to Heroku Postgres instance via pgAdmin4
+- Connect to the app logs via Heroku CLI
+  - https://devcenter.heroku.com/articles/heroku-cli#download-and-install
+  - `heroku login`
+  - `heroku logs -a hipster-app --tail`
 
 ### Deploying frontend
 
@@ -1057,6 +1063,8 @@ jobs:
 ```
 
 - Disable automatic deploy on Netlify
+  - Go to deploy settings, edit, check "Stop builds"
+  - DO NOT disable autopublishing
 - Add CD workflow for frontend:
 
 ```yml
@@ -1101,7 +1109,37 @@ deploy-app:
 
 ### Adding services
 
-- Papertrail
-- Sentry
+- Add Papertrail
+- Add Sentry
+- `dotnet add package Sentry.AspNetCore`
+- Configure Sentry:
+
+```csharp
+// Program.cs
+
+// ...
+
+public static IHostBuilder CreateHostBuilder(string[] args) =>
+    Host.CreateDefaultBuilder(args)
+        .ConfigureWebHostDefaults(webBuilder =>
+        {
+            webBuilder
+                .UseStartup<Startup>()
+                .UseHeroku()
+                .UseSentry(o =>
+                {
+                    o.TracesSampleRate = 1;
+                });
+        });
+```
+
+```csharp
+// Startup.cs
+
+// ...
+
+app.UseRouting();
+app.UseSentryTracing();
+```
 
 ### Performing database migration on backend

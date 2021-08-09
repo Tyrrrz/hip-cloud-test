@@ -26,7 +26,7 @@ namespace Hipster.Api
             return builder.ConnectionString;
         }
 
-        public static void UseHeroku(this IWebHostBuilder webHost)
+        public static IWebHostBuilder UseHeroku(this IWebHostBuilder webHost)
         {
             // Port settings
             var port = Environment.GetEnvironmentVariable("PORT");
@@ -44,6 +44,8 @@ namespace Hipster.Api
                     ConnectionStringFromUrl(databaseUrl)
                 );
             }
+
+            return webHost;
         }
     }
 }
