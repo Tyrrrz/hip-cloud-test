@@ -870,6 +870,13 @@ jobs:
       - name: Build
         run: npm run build
         working-directory: ./Hipster.App
+
+    build-docker:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v2.3.3
+
 ```
 
 - Add coverage reporting if there's enough time
