@@ -905,7 +905,8 @@ build-docker:
 
 ### Writing tests for frontend
 
-- Scoped out?
+- Out of scope
+- Read more: https://testing-library.com/docs/react-testing-library/example-intro
 
 ### Deploying backend
 
@@ -1136,20 +1137,6 @@ public static IHostBuilder CreateHostBuilder(string[] args) =>
             webBuilder
                 .UseStartup<Startup>()
                 .UseHeroku()
-                .UseSentry(o =>
-                {
-                    o.TracesSampleRate = 1;
-                });
+                .UseSentry();
         });
 ```
-
-```csharp
-// Startup.cs
-
-// ...
-
-app.UseRouting();
-app.UseSentryTracing();
-```
-
-### Performing database migration on backend
