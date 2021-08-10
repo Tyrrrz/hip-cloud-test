@@ -7,13 +7,13 @@
   - Not focusing on code quality, aiming for simplest and dumbest solution
   - Focusing on infrastructure
 
-- Outline VS Code extensions
+- Outline installed tools and SDKs
   - VS Code
   - Dotnet SDK
   - Node SDK
   - Docker Desktop
   - pgAdmin4
-- Outline installed tools and SDKs
+- Outline VS Code extensions
 
 ### Bootstrapping the backend
 
