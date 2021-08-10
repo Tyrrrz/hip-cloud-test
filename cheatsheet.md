@@ -8,6 +8,12 @@
   - Focusing on infrastructure
 
 - Outline VS Code extensions
+  - VS Code
+  - Dotnet SDK
+  - Node SDK
+  - Docker Desktop
+  - pgAdmin4
+- Outline installed tools and SDKs
 
 ### Bootstrapping the backend
 
